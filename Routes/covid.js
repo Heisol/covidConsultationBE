@@ -27,6 +27,7 @@ router.post("/", cors(), upload.none(),async (req, res) => {
     var hasMild = false;
     var hasSerious = false;
     for (i = 0; i < result.symptoms; i++) {
+      if (result.symptomsVal[i] == true) console.log(result.symptoms[i])
       if (i < 10 && result.symptomsVal[i] == true) {
         if (title === "") {
           title = `Mild and common symptom(s) present : ${result.symptoms[i]}`;
@@ -53,6 +54,7 @@ router.post("/", cors(), upload.none(),async (req, res) => {
       status: "success",
       diagnosis: { title: title, message: message },
     });
+    
   });
   // get req
   // check present symptoms in the req and insert to array to be used
