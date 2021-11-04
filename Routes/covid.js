@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const schema = Joi.object({
-    symptoms = Joi.array().required(),
-    symportsVal = Joi.array().required()
+    symptoms = Joi.array().items(Joi.string()).required(),
+    symportsVal = Joi.array().items(Joi.bool()).required()
   })
   schema.validateAsync(req.body).then((result, err)=>{
     var i = 0
