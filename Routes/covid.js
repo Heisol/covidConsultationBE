@@ -46,7 +46,6 @@ router.post("/", cors(), upload.none(),async (req, res) => {
         }
         message =
           "Immediately seek medical Attention. (Visit your nearest health center or doctor especially if you other underlying medical conditions)";
-        return;
       }
     }
     console.log(`Title: ${title}`)
