@@ -3,7 +3,7 @@ const Joi = require("joi");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const schema = Joi.object({
     symptoms: Joi.array().items(Joi.string().required()).required(),
     symportsVal: Joi.array().items(Joi.bool().required()).required(),
