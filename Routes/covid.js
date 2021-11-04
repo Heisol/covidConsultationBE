@@ -1,22 +1,26 @@
 const express = require("express");
 const Joi = require("joi");
 const cors = require("cors")
+const multer = req("multer")
 
 const router = express.Router();
+const upload = multer()
 
-router.post("/", cors(),async (req, res) => {
+router.use(cors())
+
+router.post("/", cors(), upload.none(),async (req, res) => {
   const schema = Joi.object({
     symptoms: Joi.array().items(Joi.string().required()).required(),
     symportsVal: Joi.array().items(Joi.bool().required()).required(),
   });
   schema.validateAsync(req.body).then((result, err) => {
-    var i = 0;
     if (err) {
       res.send({ status: "error", log: `${err.message}` });
       res.end();
       return;
     }
     // common symptoms is 0-9 serious symptoms is 10-12
+    var i = 0;
     var title = "";
     var message = "";
     var hasMild = false;
