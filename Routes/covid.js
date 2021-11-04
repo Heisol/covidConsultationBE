@@ -9,6 +9,7 @@ const upload = multer()
 router.use(cors())
 
 router.post("/", cors(), upload.none(),async (req, res) => {
+  console.log(req.body)
   const schema = Joi.object({
     symptoms: Joi.array().items(Joi.string().required()).required(),
     symportsVal: Joi.array().items(Joi.bool().required()).required(),
