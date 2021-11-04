@@ -1,9 +1,10 @@
 const express = require("express");
 const Joi = require("joi");
+const cors = require("cors")
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/", cors(),async (req, res) => {
   const schema = Joi.object({
     symptoms: Joi.array().items(Joi.string().required()).required(),
     symportsVal: Joi.array().items(Joi.bool().required()).required(),
