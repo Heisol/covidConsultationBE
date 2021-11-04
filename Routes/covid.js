@@ -28,6 +28,7 @@ router.post("/", cors(), upload.none(),async (req, res) => {
     var hasMild = false;
     var hasSerious = false;
     for (i = 0; i < result.symptoms; i++) {
+      console.log(typeof result.symptomsVal[i])
       if (result.symptomsVal[i] == true) console.log(result.symptoms[i])
       if (i < 10 && result.symptomsVal[i] == true) {
         if (title === "") {
