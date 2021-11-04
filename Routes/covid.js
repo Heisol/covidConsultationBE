@@ -9,12 +9,12 @@ const upload = multer()
 router.use(cors())
 
 router.post("/", cors(), upload.none(),async (req, res) => {
-  console.log(req.body)
+  const newReqBody = {symptoms = JSON.parse(req.body.symptoms), symptomsVal: JSON.parse(req.body.symptomsVal)}
   const schema = Joi.object({
     symptoms: Joi.array().items(Joi.string().required()).required(),
-    symportsVal: Joi.array().items(Joi.bool().required()).required(),
+    symptomsVal: Joi.array().items(Joi.bool().required()).required(),
   });
-  schema.validateAsync(req.body).then((result, err) => {
+  schema.validateAsync(newReqBody).then((result, err) => {
     if (err) {
       res.send({ status: "error", log: `${err.message}` });
       res.end();
