@@ -1,7 +1,7 @@
 const express = require("express");
 const Joi = require("joi");
 const cors = require("cors")
-const multer = req("multer")
+const multer = require("multer")
 
 const router = express.Router();
 const upload = multer()
