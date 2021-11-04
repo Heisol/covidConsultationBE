@@ -10,7 +10,6 @@ router.use(cors())
 
 router.post("/", cors(), upload.none(),async (req, res) => {
   const newReqBody = {symptoms: JSON.parse(req.body.symptoms), symptomsVal: JSON.parse(req.body.symptomsVal)}
-  console.log(newReqBody)
   const schema = Joi.object({
     symptoms: Joi.array().items(Joi.string().required()).required(),
     symptomsVal: Joi.array().items(Joi.bool().required()).required(),
@@ -28,8 +27,6 @@ router.post("/", cors(), upload.none(),async (req, res) => {
     var hasMild = false;
     var hasSerious = false;
     for (i = 0; i < result.symptomsVal.length; i++) {
-      console.log(typeof result.symptomsVal[i])
-      if (result.symptomsVal[i] == true) console.log(result.symptoms[i])
       if (i < 10 && result.symptomsVal[i] == true) {
         if (title === "") {
           title = `Mild and common symptom(s) present : ${result.symptoms[i]}`;
@@ -52,6 +49,8 @@ router.post("/", cors(), upload.none(),async (req, res) => {
         return;
       }
     }
+    console.log(`Title: ${title}`)
+    console.log(`Message: ${message}`)
     res.send({
       status: "success",
       diagnosis: { title: title, message: message },
