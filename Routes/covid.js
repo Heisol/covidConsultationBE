@@ -48,12 +48,18 @@ router.post("/", cors(), upload.none(),async (req, res) => {
           "Immediately seek medical Attention. (Visit your nearest health center or doctor especially if you other underlying medical conditions)";
       }
     }
-    console.log(`Title: ${title}`)
-    console.log(`Message: ${message}`)
-    res.send({
-      status: "success",
-      diagnosis: { title: title, message: message },
-    });
+    if (title !== '' && message !== ''){
+        res.send({
+          status: "success",
+          diagnosis: { title: title, message: message },
+        });
+    } else if (title == '' && message == ''){
+        res.send({
+          status: "success",
+          diagnosis: { title: 'No symptoms present', message: 'Great! Keep being healthy but we would advise you to get tested for covid.' },
+        });
+    }
+    
     
   });
   // get req
