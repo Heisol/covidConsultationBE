@@ -21,3 +21,7 @@ app.listen(port, (res, err) => {
   if (err) console.error(err);
   console.log(`Listening to port ${port}`);
 });
+
+app.get("/testendpoint", (req, res) => {
+  res.send(`Server is up and running at port ${port}`);
+});
