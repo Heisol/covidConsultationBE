@@ -2,6 +2,7 @@ const express = require("express");
 const Joi = require("joi");
 const cors = require("cors")
 const multer = require("multer")
+const crypto = require('crypto')
 
 const router = express.Router();
 const upload = multer()
@@ -68,5 +69,28 @@ router.post("/", cors(), upload.none(),async (req, res) => {
   // evaluate diagnosis
   // res.send({status, action})
 });
+
+router.get( async(req,res)=>{
+  const items = [
+    {
+      id: 1,
+      title: 'Hydration',
+      text: 'Always drink water and keep your body hydrated to help to: regulate body temperature, keep joints lubricated, prevent infections, deliver nutrients to cells, and keep organs functioning properly. Being well-hydrated also improves sleep quality, cognition, and mood.',
+      link: 'https://www.hsph.harvard.edu/news/hsph-in-the-news/the-importance-of-hydration/#:~:text=Drinking%20enough%20water%20each%20day,quality%2C%20cognition%2C%20and%20mood.'
+    },
+    {
+      id: 2,
+      title: 'Loss of taste or smell or appetite',
+      text: 'Losing your sense of taste or smell would ultimately diminish your appetite which might cause malnutrition and other complications. This would recover naturally but try to eat normally despite the temporary loss of hapiness from eating food.'
+    },
+    {
+      id: 3,
+      title: 'Steam inhalation',
+      text: 'Try out inhaling steam from boiling hot water. This would help you in breathing easily, opening up congestions and provide temporary relief from colds, headaches and fever.'
+    }
+  ]
+
+  res.send({text: 'hi', items: items})
+})
 
 module.exports = router;
