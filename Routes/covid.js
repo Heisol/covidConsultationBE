@@ -70,7 +70,7 @@ router.post("/", cors(), upload.none(),async (req, res) => {
   // res.send({status, action})
 });
 
-router.get( async(req,res)=>{
+router.get('/',cors(), async(req,res)=>{
   const items = [
     {
       id: 1,
