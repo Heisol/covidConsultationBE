@@ -2,7 +2,6 @@ const express = require("express");
 const Joi = require("joi");
 const cors = require("cors")
 const multer = require("multer")
-const crypto = require('crypto')
 
 const router = express.Router();
 const upload = multer()
@@ -76,7 +75,8 @@ router.get('/',cors(), async(req,res)=>{
       id: 1,
       title: 'Hydration',
       text: 'Always drink water and keep your body hydrated to help to: regulate body temperature, keep joints lubricated, prevent infections, deliver nutrients to cells, and keep organs functioning properly. Being well-hydrated also improves sleep quality, cognition, and mood.',
-      link: 'https://www.hsph.harvard.edu/news/hsph-in-the-news/the-importance-of-hydration/#:~:text=Drinking%20enough%20water%20each%20day,quality%2C%20cognition%2C%20and%20mood.'
+      link: 'https://www.hsph.harvard.edu/news/hsph-in-the-news/the-importance-of-hydration/#:~:text=Drinking%20enough%20water%20each%20day,quality%2C%20cognition%2C%20and%20mood.',
+      linkShortHand: 'HSPH Harvard'
     },
     {
       id: 2,
