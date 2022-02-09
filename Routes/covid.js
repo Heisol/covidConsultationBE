@@ -2,6 +2,7 @@ const express = require("express");
 const Joi = require("joi");
 const cors = require("cors")
 const multer = require("multer")
+const client = require('../Middleware/mongo')
 
 const router = express.Router();
 const upload = multer()
@@ -9,10 +10,12 @@ const upload = multer()
 router.use(cors())
 
 router.post("/", cors(), upload.none(),async (req, res) => {
+  const clientStatus = await client.connect()
   const newReqBody = {symptoms: JSON.parse(req.body.symptoms), symptomsVal: JSON.parse(req.body.symptomsVal)}
   const schema = Joi.object({
     symptoms: Joi.array().items(Joi.string().required()).required(),
     symptomsVal: Joi.array().items(Joi.bool().required()).required(),
+    id: Joi.string()
   });
   schema.validateAsync(newReqBody).then((result, err) => {
     if (err) {
@@ -21,6 +24,14 @@ router.post("/", cors(), upload.none(),async (req, res) => {
       return;
     }
     // common symptoms is 0-9 serious symptoms is 10-12
+
+    if (clientStatus && (result.id !== '' || result.id !== null)) {
+      // client.db('covidConsulation').collection('monitoring').insertOne({
+      //   id:
+      // })
+      console.log('Insert monitoring status')
+    }
+
     var i = 0;
     var title = "";
     var message = "";
