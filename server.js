@@ -13,6 +13,7 @@ app.use(express.json());
 // inits
 
 app.use("/covid19", require("./Routes/covid"));
+app.use('/user', require('./Routes/user'))
 // Routers
 
 const port = process.env.PORT || 8000;

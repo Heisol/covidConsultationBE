@@ -3,6 +3,7 @@ const Joi = require("joi");
 const cors = require("cors")
 const multer = require("multer")
 const client = require('../Middleware/mongo')
+const qrcode = require('qrcode')
 
 const router = express.Router();
 const upload = multer()
@@ -11,25 +12,28 @@ router.use(cors())
 
 router.post("/", cors(), upload.none(),async (req, res) => {
   const clientStatus = await client.connect()
-  const newReqBody = {symptoms: JSON.parse(req.body.symptoms), symptomsVal: JSON.parse(req.body.symptomsVal)}
+  const newReqBody = {symptoms: JSON.parse(req.body.symptoms), symptomsVal: JSON.parse(req.body.symptomsVal), id: req.body.id}
   const schema = Joi.object({
     symptoms: Joi.array().items(Joi.string().required()).required(),
     symptomsVal: Joi.array().items(Joi.bool().required()).required(),
     id: Joi.string()
   });
-  schema.validateAsync(newReqBody).then((result, err) => {
+  schema.validateAsync(newReqBody).then(async (result, err) => {
     if (err) {
       res.send({ status: "error", log: `${err.message}` });
       res.end();
       return;
     }
     // common symptoms is 0-9 serious symptoms is 10-12
-
-    if (clientStatus && (result.id !== '' || result.id !== null)) {
-      // client.db('covidConsulation').collection('monitoring').insertOne({
-      //   id:
-      // })
-      console.log('Insert monitoring status')
+    if (clientStatus && (result.id !== '' && result.id !== null && result.id !== undefined)) {
+      result.qr = await qrcode.toDataURL(`https://consultation19-react.herokuapp.com/user/${result.id}`)
+      const insertCursor = await client.db('covidConsulation').collection('monitoring').insertOne({
+        id: result.id,
+        status: {symptoms: result.symptoms, symptomsVal: result.symptomsVal},
+        dateTime: new Date()
+      })
+      if (insertCursor) client.close()
+      if (!insertCursor) console.log(`Data id${result.id} was not inserted. ${result}`)
     }
 
     var i = 0;
@@ -63,11 +67,13 @@ router.post("/", cors(), upload.none(),async (req, res) => {
         res.send({
           status: "success",
           diagnosis: { title: title, message: message },
+          summary: result
         });
     } else if (title == '' && message == ''){
         res.send({
           status: "success",
           diagnosis: { title: 'No symptoms present', message: 'Great! Keep being healthy but we would advise you to get tested for covid.' },
+          summary: result
         });
     }
     
